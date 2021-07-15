@@ -1,0 +1,43 @@
+{
+  "name": "kenya-counties-constituencies-wards",
+  "version": "1.0.0",
+  "description": "List of Counties, Constituencies and Wards in Kenya",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index",
+    "dev": "nodemon index"
+  },
+  "engines": {
+    "node": "14.17.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sagspot/kenya-counties-constituencies-wards.git"
+  },
+  "keywords": [
+    "kenya",
+    "county",
+    "sub-county",
+    "ward"
+  ],
+  "author": "Oliver Sagala",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sagspot/kenya-counties-constituencies-wards/issues"
+  },
+  "homepage": "https://github.com/sagspot/kenya-counties-constituencies-wards#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "chalk": "^4.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.13.2",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  }
+}
