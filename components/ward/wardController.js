@@ -49,6 +49,24 @@ export const getConstituencyWard = async (req, res) => {
   }
 };
 
+export const getCountyWard = async (req, res) => {
+  const validateObjectId = await mongoose.isValidObjectId(req.params.countyid);
+  if (!validateObjectId)
+    return res.status(400).json({ msg: 'Invalid county ID' });
+  try {
+    const wards = await Ward.find({
+      county: req.params.countyid,
+    });
+    if (wards.length === 0)
+      return res.status(404).json({
+        msg: 'No wards found. Check your url parameter and try again',
+      });
+    res.status(200).json({ wards });
+  } catch (err) {
+    res.status(500).json({ error: err });
+  }
+};
+
 export const postWard = async (req, res) => {
   const validateObjectId = await mongoose.isValidObjectId(
     req.body.constituency
