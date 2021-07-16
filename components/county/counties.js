@@ -8,8 +8,8 @@ import {
 const router = express.Router();
 
 router.get('/', getCounties);
-router.get('/:provinceid', getProvinceCounties);
 router.get('/:name', getCounty);
+router.get('/province/:provinceid', getProvinceCounties);
 router.post('/', postCounty);
 
 export default router;

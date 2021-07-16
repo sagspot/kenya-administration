@@ -9,8 +9,8 @@ import {
 const router = express.Router();
 
 router.get('/', getConstituencies);
-router.get('/:countyid', getCountyConstituencies);
-router.get('/:id', getConstituency);
+router.get('/:name', getConstituency);
+router.get('/county/:countyid', getCountyConstituencies);
 router.post('/', postConstituency);
 
 export default router;
