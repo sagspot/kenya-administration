@@ -32,10 +32,15 @@ export const getCountyConstituencies = async (req, res) => {
 };
 
 export const getConstituency = async (req, res) => {
+  const validateObjectId = await mongoose.isValidObjectId(
+    req.params.constituencyid
+  );
+  if (!validateObjectId)
+    return res.status(400).json({ msg: 'Invalid constituency ID' });
   try {
-    const constituency = await Constituency.find({
-      name: req.params.name,
-    }).populate('county', 'name');
+    const constituency = await Constituency.findById(
+      req.params.constituencyid
+    ).populate('county', 'name');
     if (constituency.length === 0)
       return res.status(404).json({
         msg: 'Constituency not found. Check your url parameter and try again',
@@ -72,6 +77,37 @@ export const postConstituency = async (req, res) => {
       msg: 'Success! Constituency created',
       Constituency: newConstituency,
     });
+  } catch (err) {
+    res.status(500).json({ err });
+  }
+};
+
+export const patchConstituency = async (req, res) => {
+  const validateObjectId = await mongoose.isValidObjectId(
+    req.params.constituencyid
+  );
+  if (!validateObjectId)
+    return res.status(400).json({ msg: 'Invalid constituency ID' });
+
+  const constituency = await Constituency.findById(req.params.constituencyid);
+  if (!constituency)
+    return res.status(404).json({ msg: 'Constituency not found' });
+
+  if (!req.body.name)
+    return res.status(400).json({ msg: 'Constituency name is required' });
+
+  try {
+    const updatedConstituency = await Constituency.updateOne(
+      { _id: req.params.constituencyid },
+      {
+        $set: {
+          name: req.body.name.toLowerCase(),
+        },
+      }
+    );
+    res
+      .status(200)
+      .json({ msg: 'Success! Constituency updated', updatedConstituency });
   } catch (err) {
     res.status(500).json({ err });
   }

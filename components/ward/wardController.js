@@ -13,10 +13,11 @@ export const getWards = async (req, res) => {
 };
 
 export const getWard = async (req, res) => {
+  const validateObjectId = await mongoose.isValidObjectId(req.params.wardid);
+  if (!validateObjectId)
+    return res.status(400).json({ msg: 'Invalid ward ID' });
   try {
-    const ward = await Ward.find({
-      name: req.params.name.toLowerCase(),
-    }).populate([
+    const ward = await Ward.findById(req.params.wardid).populate([
       { path: 'constituency', select: 'name' },
       { path: 'county', select: 'name' },
     ]);

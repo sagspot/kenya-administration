@@ -31,11 +31,15 @@ export const getProvinceCounties = async (req, res) => {
 };
 
 export const getCounty = async (req, res) => {
+  const validateObjectId = await mongoose.isValidObjectId(req.params.countyid);
+  if (!validateObjectId)
+    return res.status(400).json({ msg: 'Invalid county ID' });
   try {
-    const county = await County.find({
-      name: req.params.name.toLowerCase(),
-    }).populate('province', 'name');
-    if (county.length === 0)
+    const county = await County.findById(req.params.countyid).populate(
+      'province',
+      'name'
+    );
+    if (!county)
       return res.status(404).json({
         msg: 'County not found. Check your url parameter and try again',
       });
