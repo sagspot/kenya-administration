@@ -5,7 +5,8 @@ import Ward from './wardModel.js';
 export const getWards = async (req, res) => {
   try {
     const wards = await Ward.find();
-    res.status(200).json({ wards });
+    const count = wards.length;
+    res.status(200).json({ count, wards });
   } catch (err) {
     res.status(500).json({ error: err });
   }
@@ -43,7 +44,8 @@ export const getConstituencyWard = async (req, res) => {
       return res.status(404).json({
         msg: 'No wards found. Check your url parameter and try again',
       });
-    res.status(200).json({ wards });
+    const count = wards.length;
+    res.status(200).json({ count, wards });
   } catch (err) {
     res.status(500).json({ error: err });
   }
@@ -61,7 +63,8 @@ export const getCountyWard = async (req, res) => {
       return res.status(404).json({
         msg: 'No wards found. Check your url parameter and try again',
       });
-    res.status(200).json({ wards });
+    const count = wards.length;
+    res.status(200).json({ count, wards });
   } catch (err) {
     res.status(500).json({ error: err });
   }
@@ -114,16 +117,19 @@ export const patchWard = async (req, res) => {
   const ward = await Ward.findById(req.params.wardid);
   if (!ward) return res.status(404).json({ msg: 'Ward not found' });
 
+  if (!req.body.name)
+    return res.status(400).json({ msg: 'Ward name is required' });
+
   try {
-    await Ward.updateOne(
+    const updatedWard = await Ward.updateOne(
       { _id: req.params.wardid },
       {
         $set: {
-          name: req.body.name,
+          name: req.body.name.toLowerCase(),
         },
       }
     );
-    res.status(200).json({ msg: 'Success! Ward updated', ward });
+    res.status(200).json({ msg: 'Success! Ward updated', updatedWard });
   } catch (err) {
     res.status(500).json({ err });
   }
