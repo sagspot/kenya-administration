@@ -5,7 +5,8 @@ import County from '../county/countyModel.js';
 export const getConstituencies = async (req, res) => {
   try {
     const constituencies = await Constituency.find();
-    res.status(200).json({ constituencies });
+    const count = constituencies.length;
+    res.status(200).json({ count, constituencies });
   } catch (err) {
     res.status(500).json({ error: err });
   }
@@ -23,7 +24,8 @@ export const getCountyConstituencies = async (req, res) => {
       return res.status(404).json({
         msg: 'No constituencies found. Check your url parameter and try again',
       });
-    res.status(200).json({ constituencies });
+    const count = constituencies.length;
+    res.status(200).json({ count, constituencies });
   } catch (err) {
     res.status(500).json({ error: err });
   }
