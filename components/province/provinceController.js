@@ -4,7 +4,8 @@ import Province from './provinceModel.js';
 export const getProvinces = async (req, res) => {
   try {
     const provinces = await Province.find();
-    res.status(200).json({ provinces });
+    const count = provinces.length;
+    res.status(200).json({ count, provinces });
   } catch (err) {
     res.status(500).json({ error: err });
   }
