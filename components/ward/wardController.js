@@ -14,7 +14,7 @@ export const getWards = async (req, res) => {
 export const getWard = async (req, res) => {
   try {
     const ward = await Ward.find({
-      name: req.params.name,
+      name: req.params.name.toLowerCase(),
     }).populate([
       { path: 'constituency', select: 'name' },
       { path: 'county', select: 'name' },
@@ -101,6 +101,29 @@ export const postWard = async (req, res) => {
       msg: 'Success! Ward created',
       Ward: newWard,
     });
+  } catch (err) {
+    res.status(500).json({ err });
+  }
+};
+
+export const patchWard = async (req, res) => {
+  const validateObjectId = await mongoose.isValidObjectId(req.params.wardid);
+  if (!validateObjectId)
+    return res.status(400).json({ msg: 'Invalid ward ID' });
+
+  const ward = await Ward.findById(req.params.wardid);
+  if (!ward) return res.status(404).json({ msg: 'Ward not found' });
+
+  try {
+    await Ward.updateOne(
+      { _id: req.params.wardid },
+      {
+        $set: {
+          name: req.body.name,
+        },
+      }
+    );
+    res.status(200).json({ msg: 'Success! Ward updated', ward });
   } catch (err) {
     res.status(500).json({ err });
   }

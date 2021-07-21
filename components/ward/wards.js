@@ -5,6 +5,7 @@ import {
   getConstituencyWard,
   getCountyWard,
   postWard,
+  patchWard,
 } from './wardController.js';
 const router = express.Router();
 
@@ -13,5 +14,6 @@ router.get('/:name', getWard);
 router.get('/constituency/:constituencyid', getConstituencyWard);
 router.get('/county/:countyid', getCountyWard);
 router.post('/', postWard);
+router.patch('/:wardid', patchWard);
 
 export default router;
