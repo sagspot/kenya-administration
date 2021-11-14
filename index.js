@@ -24,12 +24,12 @@ const options = {
     },
     servers: [
       {
-        description: 'Dev server',
-        url: 'http://localhost:5000',
-      },
-      {
         description: 'Prod server',
         url: 'https://kenyacounty.herokuapp.com',
+      },
+      {
+        description: 'Dev server',
+        url: 'http://localhost:5000',
       },
     ],
   },
